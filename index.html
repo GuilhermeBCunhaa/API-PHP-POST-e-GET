@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="PT-BR">
+    <head>
+        <meta charset="UTF-8" name="viewport" content="initial-scale=1.0" http-equiv="X-UA-Compatible" contet="ie-edge">
+        <title>Cadastro</title>
+    </head> 
+    
+    <body>
+        <form method="post" action="api.php">
+            <label for="cpf">CPF:</label>
+            <input type="text" name="cpf" id="cpf" required>
+
+            <label for="nome">nome:</label>
+            <input type="text" name="nome" id="nome" required>
+
+            <label for="data_nascimento">Data de Nascimento:</label>
+            <input type="date" name="data_nascimento" id="data_nascimento" required>
+
+            <button type="submit">Enviar</button>
+        </form>
+
+        <button onclick="consultarUsuario()">Consultar</button>
+    </body>
+
+<script>
+    function consultarUsuario() {
+      var xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          var usuario = JSON.parse(xhr.responseText);
+          if (usuario) {
+            alert("Nome: " + usuario.nome + "\nCPF: " + usuario.cpf + "\nData de Nascimento: " + usuario.data_nascimento);
+          } else {
+            alert("Usuário não encontrado.");
+          }
+        }
+      };
+      var cpf = document.getElementById('cpf').value;
+      xhr.open('GET', 'api.php?cpf=' + cpf);
+      xhr.send();
+    }
+    </script>
+</html>
+
